@@ -8,9 +8,8 @@ import logging
 
 
 class PredictorView(APIView):
-    def get(self, request, username):
+    def get(self, request, userid):
         try:
-            userid = "65991057ada9394da4f73eb3"
             prediction_result = Predictor.predict_top5_foods(userid)
             prediction_result_str = [str(id) for id in prediction_result]
             print(prediction_result_str)
