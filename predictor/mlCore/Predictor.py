@@ -12,7 +12,7 @@ class Predictor():
         weekday = cur_datetime.weekday()
         hour = cur_datetime.hour
         
-        filename = user_id + 'intake_predictor.pkl' 
+        filename = user_id + '_intake_predictor.pkl' 
         label_encoder_filename = user_id + '_label_encoder.joblib'
         
         model = load(filename)

@@ -12,7 +12,7 @@ class PredictorView(APIView):
         try:
             prediction_result = Predictor.predict_top5_foods(userid)
             prediction_result_str = [str(id) for id in prediction_result]
-            print(prediction_result_str)
+            # print(prediction_result_str)
             serializer = PredictorSerializer(data={"user_id": userid, "predictions": prediction_result_str}) 
             if serializer.is_valid():
                 return Response(serializer.data, status=status.HTTP_200_OK)

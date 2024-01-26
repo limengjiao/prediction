@@ -25,6 +25,7 @@ def retrieve_data(user_type_id):
     data['weekday'] = data['datetime'].dt.weekday
     data['hour'] = data['datetime'].dt.hour
     # print("Data: " + data.to_string())
+    # print("Data types:\n", data.dtypes)
     return data
 
 # retrieve_data("65991057ada9394da4f73eb3")
