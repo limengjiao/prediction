@@ -4,16 +4,18 @@ from sklearn.preprocessing import LabelEncoder
 from joblib import load
 import datetime
 from django.utils import timezone
+import os
 
 class Predictor():
+    folder = './predictor/mlCore/mlModels/'
     @staticmethod
     def predict_top5_foods(user_id):
         cur_datetime = timezone.now()
         weekday = cur_datetime.weekday()
         hour = cur_datetime.hour
         
-        filename = user_id + '_intake_predictor.pkl' 
-        label_encoder_filename = user_id + '_label_encoder.joblib'
+        filename = os.path.join(Predictor.folder, user_id + '_intake_predictor.pkl')
+        label_encoder_filename = os.path.join(Predictor.folder, user_id + '_label_encoder.joblib')
         
         model = load(filename)
         label_encoder = load(label_encoder_filename)
