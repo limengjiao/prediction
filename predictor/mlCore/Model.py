@@ -27,7 +27,6 @@ def model_train(user_id, data):
         model.fit(X_train, y_train)
         dump(model, os.path.join(folder, filename))
         dump(label_encoder, os.path.join(folder, label_encoder_filename))
-
         return True
     except Exception as e:
         print("An error occurred during model training:", e)
