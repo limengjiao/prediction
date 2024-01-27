@@ -1,6 +1,3 @@
-from sre_constants import SUCCESS
-import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from joblib import dump
 import xgboost as xgb

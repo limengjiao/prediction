@@ -20,14 +20,22 @@ def logging_model_score(user_id):
     label_encoder_filename = os.path.join(folder, user_id + '_label_encoder.joblib')
     
     data = DataLoader.retrieve_data_week(user_id)
+    if data.empty:
+        print(f"User does not have intake data this week.")
+        return False   
     # print(data)
     
-    model = load(filename)
-    label_encoder = load(label_encoder_filename)
+    try:
+        model = load(filename)
+        label_encoder = load(label_encoder_filename)
+    except Exception as e:
+        print(f"An error occurred while loading model or label encoder: {e}")
+        return False
     
     X_test = data[['weekday', 'hour']]
     data['encode'] = label_encoder.fit_transform(data['food'])
     y_test = data['encode'] 
+    
     try:
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)   

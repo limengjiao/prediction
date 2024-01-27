@@ -7,8 +7,6 @@ import Accuracy
 def run_model():
     user_id = "65b30e99201ae95a40c5bb80"
     
-    cw_data = DataLoader.retrieve_data_week(user_id)
-    # print(cw_data)
     is_success_score = Accuracy.logging_model_score(user_id)
     # print(is_success_score)
     if is_success_score:
