@@ -1,5 +1,5 @@
 from sklearn.metrics import accuracy_score
-import DataLoader;
+from . import DataLoader;
 import pandas as pd
 from joblib import load
 import os

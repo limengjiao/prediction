@@ -20,10 +20,17 @@ def get_collection_data(user_type_id):
     query = {"user": ObjectId(user_type_id)}
     intake_data = collection.find(query, projection)
     data = pd.DataFrame(list(intake_data))
+    
+    if data.empty or 'date' not in data.columns:
+        print(f"No data available for user {user_type_id}.")
+        return pd.DataFrame()
     return data
 
 def retrieve_data(user_type_id):
     data = get_collection_data(user_type_id)
+    if data.empty:
+        print(f"No data available for user {user_type_id}.")
+        return pd.DataFrame()
 
     data['datetime'] = pd.to_datetime(data['date'])
     data['weekday'] = data['datetime'].dt.weekday
@@ -34,6 +41,9 @@ def retrieve_data(user_type_id):
 
 def retrieve_data_week(user_type_id):
     data = get_collection_data(user_type_id)
+    if data.empty:
+        print(f"No data available for user {user_type_id}.")
+        return pd.DataFrame()
     
     data['datetime'] = data['date'].apply(lambda x: parser.isoparse(x).replace(tzinfo=None))
     now = datetime.datetime.now().replace(hour=3, minute=0, second=0, microsecond=0)

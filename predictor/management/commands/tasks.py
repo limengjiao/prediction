@@ -1,8 +1,5 @@
 from django.core.management.base import BaseCommand
-import DataLoader
-import Model
-import Accuracy
-import RetrieveUser
+from predictor.mlCore import DataLoader, Model, Accuracy, RetrieveUser
 
 class Command(BaseCommand):
     help = 'Retrain the model for all users'  
@@ -24,7 +21,7 @@ class Command(BaseCommand):
                 
             # Retraining model
             data = DataLoader.retrieve_data(user_id)
-            if(data):
+            if not data.empty:
                 is_success = Model.model_train(user_id, data)
                 if is_success:
                     print("Model training successful.")
