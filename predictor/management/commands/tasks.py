@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from predictor.mlCore import DataLoader, Model, Accuracy, RetrieveUser
+from predictor.mlCore import DataLoader, Accuracy, db_operations, intake_model
 
 class Command(BaseCommand):
     help = 'Retrain the model for all users'  
@@ -7,22 +7,22 @@ class Command(BaseCommand):
     # Model auto traing task
     def handle(self, *args, **options):
         
-        userid_list = RetrieveUser.get_user_list()
+        userid_list = db_operations.get_user_list()
+        db_operations.update_user(userid_list)
         user_ids = userid_list['_id'].tolist()
-        # user_id = "65991057ada9394da4f73eb3"
     
         for user_id in user_ids:
-        # Logging last model score
+        # Logging last model score and update db table
             is_success_score = Accuracy.logging_model_score(user_id)
             if is_success_score:
                 print("Model scoring successful.")
             else:
                 print("Model scoring failed.")
                 
-            # Retraining model
+            # Retraining model and update db table
             data = DataLoader.retrieve_data(user_id)
             if not data.empty:
-                is_success = Model.model_train(user_id, data)
+                is_success = intake_model.model_train(user_id, data)
                 if is_success:
                     print("Model training successful.")
                     self.stdout.write(self.style.SUCCESS("Model training successful."))

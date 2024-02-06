@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'predictor',
     'rest_framework',
-    'celery',
     'django_crontab',
 ]
 
@@ -130,9 +129,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRONJOBS = [('0 3 * * 0', 'predictor.mlCore.tasks'),
 ]
-# CELERY_BEAT_SCHEDULE = {
-#     'retrain-model-every-week': {
-#         'task': 'myapi.tasks.retrain_model',
-#         'schedule': crontab(day_of_week=0, hour=0, minute=0), 
-#     },
-# }
+
+

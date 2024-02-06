@@ -1,30 +1,31 @@
 from sklearn.metrics import accuracy_score
-from . import DataLoader;
+import DataLoader;
 import pandas as pd
 from joblib import load
 import os
 import logging
+import db_operations
 
 
 def logging_model_score(user_id):
     log_folder = './predictor/mlCore/log/'
     log_filename = 'model_accuracy.log'
     log_path = os.path.join(log_folder, log_filename)
+    folder = './predictor/mlCore/mlModels/'
+    filename = os.path.join(folder, user_id + '_intake_predictor.pkl')
+    label_encoder_filename = os.path.join(folder, user_id + '_label_encoder.joblib')
+    
     if not os.path.exists(log_folder):
         os.makedirs(log_folder)
         
     logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    
-    folder = './predictor/mlCore/mlModels/'
-    filename = os.path.join(folder, user_id + '_intake_predictor.pkl')
-    label_encoder_filename = os.path.join(folder, user_id + '_label_encoder.joblib')
     
     data = DataLoader.retrieve_data_week(user_id)
     if data.empty:
         print(f"User does not have intake data this week.")
         return False   
     # print(data)
-    
+    data_count = len(data)
     try:
         model = load(filename)
         label_encoder = load(label_encoder_filename)
@@ -36,11 +37,13 @@ def logging_model_score(user_id):
     data['encode'] = label_encoder.fit_transform(data['food'])
     y_test = data['encode'] 
     
+    model_name = user_id + '_intake_predictor.pkl'
     try:
         y_pred = model.predict(X_test)
         accuracy = accuracy_score(y_test, y_pred)   
         logging.info(f"User ID: {user_id} - Model Accuracy: {accuracy}")
         print(f"Model Accuracy: {accuracy}")
+        db_operations.add_model_score(model_name, accuracy, data_count)
         return True
     except Exception as e:
         print("An error occurred during model scoring", e)

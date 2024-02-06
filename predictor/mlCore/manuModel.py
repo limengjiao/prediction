@@ -1,5 +1,5 @@
 import DataLoader
-import Model
+import predictor.mlCore.intake_model as intake_model
 import pandas as pd
 from joblib import dump
 import Accuracy
@@ -17,7 +17,7 @@ def run_model():
     data = DataLoader.retrieve_data(user_id)
     # print("After calling retrieve_data")
 
-    is_success = Model.model_train(user_id, data)
+    is_success = intake_model.model_train(user_id, data)
     if is_success:
         print("Model training successful.")
     else:
