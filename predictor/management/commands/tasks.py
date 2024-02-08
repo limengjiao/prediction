@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from predictor.mlCore import DataLoader, Accuracy, db_operations, intake_model
+from predictor.mlCore import accuracy, data_loader, db_operations, intake_model
 
 class Command(BaseCommand):
     help = 'Retrain the model for all users'  
@@ -13,14 +13,14 @@ class Command(BaseCommand):
     
         for user_id in user_ids:
         # Logging last model score and update db table
-            is_success_score = Accuracy.logging_model_score(user_id)
+            is_success_score = accuracy.logging_model_score(user_id)
             if is_success_score:
                 print("Model scoring successful.")
             else:
                 print("Model scoring failed.")
                 
             # Retraining model and update db table
-            data = DataLoader.retrieve_data(user_id)
+            data = data_loader.retrieve_data(user_id)
             if not data.empty:
                 is_success = intake_model.model_train(user_id, data)
                 if is_success:

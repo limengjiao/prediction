@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from joblib import load
-import datetime
 from django.utils import timezone
 import os
 

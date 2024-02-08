@@ -1,10 +1,10 @@
 from sklearn.metrics import accuracy_score
-import DataLoader;
+from . import data_loader;
 import pandas as pd
 from joblib import load
 import os
 import logging
-import db_operations
+from . import db_operations
 
 
 def logging_model_score(user_id):
@@ -20,7 +20,7 @@ def logging_model_score(user_id):
         
     logging.basicConfig(filename=log_path, level=logging.INFO, format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     
-    data = DataLoader.retrieve_data_week(user_id)
+    data = data_loader.retrieve_data_week(user_id)
     if data.empty:
         print(f"User does not have intake data this week.")
         return False   

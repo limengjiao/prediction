@@ -27,8 +27,8 @@ SECRET_KEY = 'django-insecure-abqxzs)p5dhkm)=#0o-f8w71*e=+8p=@_e@9p^s^vf+!o$*t!z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -42,9 +42,12 @@ INSTALLED_APPS = [
     'predictor',
     'rest_framework',
     'django_crontab',
+    'corsheaders', 
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,10 +81,21 @@ WSGI_APPLICATION = 'prediction.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'lqcameex',     
+        'USER': 'lqcameex',    
+        'PASSWORD': 'rHJyX_7qZFFKo0KsH3RKO3EphgPoaf9g', 
+        'HOST': 'jelani.db.elephantsql.com',
+        'PORT': '5432',  
     }
 }
 

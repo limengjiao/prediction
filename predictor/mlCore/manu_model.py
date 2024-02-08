@@ -1,4 +1,4 @@
-import DataLoader
+import predictor.mlCore.data_loader as data_loader
 import predictor.mlCore.intake_model as intake_model
 import pandas as pd
 from joblib import dump
@@ -14,7 +14,7 @@ def run_model():
     else:
         print("Model scoring failed.")
         
-    data = DataLoader.retrieve_data(user_id)
+    data = data_loader.retrieve_data(user_id)
     # print("After calling retrieve_data")
 
     is_success = intake_model.model_train(user_id, data)

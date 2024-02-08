@@ -2,7 +2,7 @@ from sklearn.preprocessing import LabelEncoder
 from joblib import dump
 import xgboost as xgb
 import os
-import db_operations
+from . import db_operations
 
 folder = './predictor/mlCore/mlModels/'
 if not os.path.exists(folder):
